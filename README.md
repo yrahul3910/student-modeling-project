@@ -13,3 +13,6 @@ The following papers have been helpful in understanding current approaches to st
 * [Piech et al., 2015. Deep knowledge tracing](https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf)
 * [Yudelson et al., Individualized Bayesian Knowledge Tracing Models](https://www.researchgate.net/publication/249424313_Individualized_Bayesian_Knowledge_Tracing_Models)
 * [Mark Stamp, A Revealing Introduction to Hidden Markov Models](https://www.cs.sjsu.edu/~stamp/RUA/HMM.pdf)
+
+# Data
+We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/site/assistmentsdata/home/assistment-2009-2010-data/skill-builder-data-2009-2010).
