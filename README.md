@@ -16,3 +16,7 @@ The following papers have been helpful in understanding current approaches to st
 
 # Data
 We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/site/assistmentsdata/home/assistment-2009-2010-data/skill-builder-data-2009-2010).
+
+# Setting Up
+1. We use the yarn package manager. Please install yarn using [these instructions](https://yarnpkg.com/lang/en/docs/install/).
+2. Run `yarn` in the `WebApp` directory.
