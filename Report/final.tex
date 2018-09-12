@@ -1,0 +1,44 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{url}
+\title{A Statistical Approach to Student Modeling}
+\author{Rahul Yedida, Ankush Kumar, Vima Rai, Srihari Joshi \\
+	Under the guidance of Ms. Kundhavai K. R.}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Educational data mining is a research area that has been gaining increasing interest in recent years. The subject deals with student modeling and test score predictions to advance education methodologies and develop reliable student models. Student modeling is primarily used in Intelligent Tutoring Systems (ITS), which are software that teach new concepts to students. Bayesian Knowledge Tracing (BKT) and various extensions to it have become increasingly popular choices for this task. \par
+This project takes a statistical approach to the problem using various Hidden Markov Models (HMMs) and their extensions to understand what factors are important for student learning and interpret the resulting model to extract information about how students learn best. We will use the 2009-10 ASSISTment data, which has 401,756 records of student responses to problem and associated data. We will implement several underlying models proposed, from the early Bayesian Knowledge Tracing model, to more recently proposed models, such as the Intervention-BKT and the KAT models. We anticipate to get Root Mean Squared Error (RMSE) and Mean Absolute Errors (MAE) at levels similar to those obtained in literature.
+\end{abstract}
+
+\section{Introduction}
+In recent years, an increasing focus of research in data mining has been focused on education. Problems related to this domain include predicting student performance, individualizing student models, and clustering \cite{assistmentsdata}. 
+
+Knowledge tracing is a technique of modeling a student's mastery of various concepts in coursework. Bayesian Knowledge Tracing (BKT) \cite{corbett1994knowledge} is the most popular approach used in Intelligent Tutoring System (ITS) research \cite{d2008more}. Formally, the BKT is a two-state Hidden Markov Model (HMM), with two states, \textit{learned} and \textit{unlearned}. These states correspond to whether or not a student has learned a particular concept.
+
+Chen Lin and Min Chi proposed an extension to the BKT model, called the Intervention-BKT (I-BKT) \cite{lin2016intervention} that incorporates student response time. Fundamentally, the I-BKT model is an Input Output Hidden Markov Model (IOHMM) \cite{chiappa2003hmm}. Their model directly incorporated response time into the Bayesian framework to model student knowledge.
+
+Recently, an increasing interest in the effect of the student's affective, or emotional, states has driven research to investigate including this in the student model successfully. \cite{spaulding2016affect} \cite{schultz2014tracing}. These models use tools that discern the student's affective states by recording the facial expressions throughout the duration of the session. 
+
+In this project, we build on top of the ASSISTments data \cite{assistmentsdata}, an ITS. We first compare the original BKT model with the I-BKT model. We then add affect to the model and compare performance of all the models. The ITS with affect will record the student's facial expression and group it into one among a set of categories defined in the ASSISTments data.
+
+\section{Literature Review}
+Several extensions to the BKT have been proposed. Pardos and Heffernan \cite{pardos2011kt} incorporated problem difficulty in the model and showed an improvement in performance on the ASSISTments dataset. Yudelson et al \cite{yudelson2013individualized} demonstrated that parameterizing student learning speed improves the model as well. 
+
+Lin and Chi \cite{lin2016intervention} added student response time to the BKT model, and called the resulting model, the Intervention-BKT (I-BKT) model. The I-BKT model is an Input Output Hidden Markov Model, and their paper showed that it outperformed the classic BKT model in predicting next-step performance.
+
+Several Deep Neural Network (DNN) models have also been proposed for this task. Piech et al \cite{piech2015deep} showed that Recurrent Neural Networks (RNNs) show a major improvement in Area Under ROC Curve (AUC) over BKT and Item Response Theory (IRT) models. Lin and Chi \cite{lin2017comparisons} compared various RNN and Long Short-Term Memory (LSTM) models, and also incorporated target replication, a technique proposed by Lipton et al \cite{lipton2015learning}. They showed that in general, RNN and LSTM models outperformed BKT models. However, deep neural networks (DNNs) have several well-known downsides. Perhaps the most notable of these is that DNNs are difficult to interpret as compared to simpler statistical models, and it can be impossible to determine why a trained DNN made a certain decision. For this reason, we prefer to use the BKT model and its extensions instead of neural networks for building the ITS, since the formal definition of an HMM can explain the student model significantly better.
+
+Research efforts have also been focused on incorporating student's emotional state, or affect, into student models. For example, Schultz and Arroyo \cite{schultz2014tracing} combined the BKT model with the Hidden Markov Model-Item Response Theory (HMM-IRT) model proposed by Johns and Woolf \cite{johns2006dynamic}, to create the Knowledge and Affect Tracing (KAT) model. The KAT model includes transition probabilities between \textit{engaged} and \textit{disengaged} states, which are affect states introduced in the HMM-IRT paper. Spaulding, Gordon, and Breazeal \cite{spaulding2016affect} instead used several affective states, including confused, bored, and smiling using a commercial affect-analysis tool called Affdex.
+
+While the original BKT models suffers from some limitations, we believe that the extensions proposed provide a balance between good performance and ease of interpretability. For this reason, we use BKT and its extended models as the underlying engine for our ITS.
+
+\bibliography{citations}
+\bibliographystyle{ieeetr}
+\end{document}
