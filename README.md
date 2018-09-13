@@ -20,3 +20,9 @@ We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/sit
 # Setting Up
 1. We use the yarn package manager. Please install yarn using [these instructions](https://yarnpkg.com/lang/en/docs/install/).
 2. Run `yarn` in the `WebApp` directory.
+
+# Setup
+* Flask is used as the back-end web server.
+* `pycodestyle` is used to lint Python code according to PEP8 guidelines.
+* `run.sh` builds the Angular code, lints the Python code, and then runs the server.
+* `yarn` is the package manager of choice.
