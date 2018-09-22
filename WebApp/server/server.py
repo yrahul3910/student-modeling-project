@@ -56,8 +56,8 @@ def user_signup():
                         status=400, mimetype='application/json')
 
     if ' ' in username:
-        return Response('{"success":false, error:"Username cannot have spaces',
-                        status=400, mimetype='application/json')
+        error_msg = '{"success":false, error:"Username cannot have spaces"}'
+        return Response(error_msg, status=400, mimetype='application/json')
 
     # Hash the password with salt
     hashed = bcrypt.hashpw(pwd.encode('utf8'), bcrypt.gensalt())
@@ -88,7 +88,7 @@ def user_signup():
         return Response(succ_res, status=200, mimetype='application/json')
     else:
         # There were collisions, respond with a 409 Conflict
-        return Response('{"success":false', status=409,
+        return Response('{"success":false}', status=409,
                         mimetype='application/json')
 
 
