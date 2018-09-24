@@ -1,0 +1,140 @@
+\documentclass[11pt]{beamer}
+\usetheme{Berkeley}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{commath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+\author{Group 48}
+\title{Student Modeling}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+\logo{\includegraphics[scale=0.15]{logo.png}}
+\institute{PES University, Electronic City} 
+\date{} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}[plain]
+	\titlepage
+	\begin{scriptsize}
+		Rahul Yedida, Ankush Kumar, Vima Rai, Srihari Joshi \\
+		Under the guidance of Ms. Kundhavai K R
+	\end{scriptsize}
+\end{frame}
+
+\begin{frame}{Brief Outline}
+\tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Abstract}
+	\begin{itemize}
+		\item<1-> \textbf{Domain:} Educational data mining, statistical learning
+		\item<2-> \textbf{What:} An Intelligent Tutoring System (ITS)
+		\item<3-> \textbf{How:} Several algorithms proposed in literature, based on BKT
+		\item<4-> \textbf{Data:} 2009-10 Skill-builder ASSISTments data
+		\item<5-> \textbf{Metrics:} RMSE, MAE
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Intelligent Tutoring Systems}
+	\begin{itemize}
+		\item<1-> Adaptive teaching systems for elucidating concepts
+		\item<2-> Primarily based on Hidden Markov Models (HMMs)
+		\item<3-> Generated interest after Corbett \& Anderson, 1994.
+	\end{itemize}
+\end{frame}
+
+\section{Algorithm}
+\begin{frame}{Bayesian Knowledge Tracing (BKT)}
+	\begin{itemize}
+		\item<1-> Proposed by Corbett \& Anderson, 1994.
+		\item<2-> Fundamentally, a two-state HMM--\textit{learned} and \textit{unlearned}.
+		\item<3-> Viterbi algorithm can be used to solve for the hidden state sequence.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{BKT Extensions}
+	\begin{itemize}
+		\item Pardos and Heffernan, 2011. Incorporated problem difficulty.
+		\item Yudelson et al., 2013. Incorporated student learning speed.
+		\item Schultz and Arroyo, 2014. Combined BKT with HMM-IRT, called Knowledge and Affect Tracing (KAT) model.
+		\item Lin and Chi, 2016. Added student response time directly into the model, creating the Intervention-BKT (I-BKT).
+		\item Spaulding, Gordon, Brezeal, 2016. Used commercial affect-analysis tool called Affdex.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Why not Deep Neural Networks?}
+	\begin{itemize}
+		\item<1-> RNNs, LSTMs successfully applied (Piech et al., 2015; Lin and Chi, 2017)
+		\item<2-> Difficult to interpret!
+		\item<3-> With HMMs, can identify "most likely" hidden state sequence, and can also find HMM parameters (EM algorithm)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{So what are we doing?}
+	\begin{itemize}
+		\item<1-> Implement a web-based ITS solution
+		\item<2-> Individual models for each user
+		\item<3-> Idea: start with simple models (single concept, basic BKT), go increasingly complex, hopefully implement KAT.
+	\end{itemize}
+\end{frame}
+
+\section{Status of Project}
+\begin{frame}{Technologies}
+	\begin{itemize}
+		\item Python + Flask back end
+		\item MongoDB database, passwords hashed with bcrypt
+		\item Authentication implemented with JSON Web Tokens (JWTs)
+		\item Front end with Angular
+		\item Code quality ensured with \textit{pycodestyle}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Work completed}
+	\begin{itemize}
+		\item<1-> User registration and login (back end and database)
+		\item<2-> Literature review, introduction
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Work left}
+	\begin{itemize}
+		\item<1-> Analyze data, plan architecture, $\approx$ 3 weeks
+		\item<2-> Implement basic BKT, $\approx$ 3-4 weeks
+		\item<3-> Find metrics on the model, $\approx$ 1 week
+		\item<4-> Implement extensions and KAT (ideal) $\approx$ 2-3 months
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you!}
+	Any questions?
+\end{frame}
+
+\end{document}
