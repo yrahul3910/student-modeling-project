@@ -20,6 +20,7 @@ We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/sit
 # Setting Up
 1. We use the yarn package manager. Please install yarn using [these instructions](https://yarnpkg.com/lang/en/docs/install/).
 2. Run `yarn` in the `WebApp` directory.
+3. The `bcrypt` package requires some packages to be installed in your system. Please read the instructions on their [GitHub repo](https://github.com/pyca/bcrypt/).
 
 # Setup
 * Flask is used as the back-end web server.

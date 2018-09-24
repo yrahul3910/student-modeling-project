@@ -73,7 +73,7 @@ def user_signup():
         user_coll.insert_one({
             'username': username,
             'name': name,
-            'password': hashed
+            'password': hashed.decode('utf8')
         })
 
         # Generate a token and respond with a 200 OK.
@@ -90,6 +90,59 @@ def user_signup():
         # There were collisions, respond with a 409 Conflict
         return Response('{"success":false}', status=409,
                         mimetype='application/json')
+
+
+@app.route('/api/user/login', methods=['POST'])
+def user_login():
+    """
+    Implements user login. Accepts credentials as
+    {
+        username: string,
+        password: string
+    }
+    If the authentication details succeed,
+    then creates a JWT and returns it to the client with a 200 OK.
+    The success response is
+    {
+        success: true,
+        token: string
+    }
+    In case of auth failure, a 401 Unauthorized is returned.
+    {
+        success: false,
+        error: string
+    }
+    """
+    data = request.get_json()
+    username = data['username']
+    pwd = data['password']
+
+    user_coll = db.get_collection('users')
+    matched_user = user_coll.find_one({
+        'username': username
+    })
+    if matched_user is None:
+        # Username does not exist. Give a vague error for
+        # security reasons.
+        return Response('{"success":false,"error":"Invalid credentials"}',
+                        status=401, mimetype='application/json')
+    else:
+        if bcrypt.checkpw(pwd.encode('utf8'),
+                          matched_user['password'].encode('utf8')):
+            # Auth successful
+            encoded = jwt.encode({
+                'username': username,
+                'name': matched_user['name']
+            }, secret, headers={
+                'expiresIn': '1 day'
+            })
+            succ_res = '{"success":true, "token":"' + \
+                encoded.decode('utf8') + '"}'
+            return Response(succ_res, status=200, mimetype='application/json')
+        else:
+            # Auth failure
+            return Response('{"success":false,"error":"Invalid credentials"}',
+                            status=401, mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})
