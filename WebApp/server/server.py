@@ -145,6 +145,37 @@ def user_login():
                             status=401, mimetype='application/json')
 
 
+@app.route('/api/user/details', methods=['POST'])
+def user_details():
+    """
+    Accepts a JWT, decodes it, checks its validity, and returns user details.
+    Accepts a token
+    {
+        token: string
+    }
+    Returns a 200 OK for successful attempts, with
+    {
+        success: true,
+        decoded: JSON object
+    }
+    If the token is invalid or has expired, returns a 401 Unauthorized
+    {
+        success: false,
+        error: string
+    }
+    """
+    data = request.get_json()
+    token = data['token']
+
+    try:
+        decoded = jwt.decode(token, key=secret)
+        return Response('{"success":true,"decoded":"' + str(decoded) + '"}',
+                        status=200, mimetype='application/json')
+    except Exception:
+        response = '{"success":false, "error": "Invalid token"}'
+        return Response(response, status=401, mimetype='application/json')
+
+
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def static_files(path):
