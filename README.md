@@ -21,9 +21,11 @@ We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/sit
 1. We use the yarn package manager. Please install yarn using [these instructions](https://yarnpkg.com/lang/en/docs/install/).
 2. Run `yarn` in the `WebApp` directory.
 3. The `bcrypt` package requires some packages to be installed in your system. Please read the instructions on their [GitHub repo](https://github.com/pyca/bcrypt/).
+4. Run `pip3 install -r requirements.txt` to install all Python dependencies.
 
 # Setup
 * Flask is used as the back-end web server.
 * `pycodestyle` is used to lint Python code according to PEP8 guidelines.
 * `run.sh` builds the Angular code, lints the Python code, and then runs the server.
 * `yarn` is the package manager of choice.
+
