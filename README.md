@@ -28,4 +28,4 @@ We use the [2009-10 ASSISTments Skill-builder data](https://sites.google.com/sit
 * `pycodestyle` is used to lint Python code according to PEP8 guidelines.
 * `run.sh` builds the Angular code, lints the Python code, and then runs the server.
 * `yarn` is the package manager of choice.
-
+* [ben-strasser/latex-checker](https://github.com/ben-strasser/latex-checker) is used for giving more human-friendly LaTeX errors.
