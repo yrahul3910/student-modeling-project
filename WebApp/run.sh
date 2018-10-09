@@ -10,6 +10,11 @@ echo '-----------------------------------'
 pycodestyle server/server.py
 
 echo '-----------------------------------'
+echo 'Linting Angular code'
+echo '-----------------------------------'
+ng lint
+
+echo '-----------------------------------'
 echo 'Creating dist files'
 echo '-----------------------------------'
 ng build
