@@ -207,6 +207,142 @@ Batch No. - 48}
     link/.style={-latex, line width=1.5pt, linkred},
     link label font=\scriptsize\bfseries,
     link label node/.append style={below left=-2pt and 0pt}
+    ]{1}{13}
+  \gantttitle[
+    title label node/.append style={below left=7pt and -3pt}
+  ]{FORTNIGHT:\quad1}{1}
+  \gantttitlelist{2,...,10}{1} \\
+  
+  % PART 1: Setup
+  \ganttgroup[progress=100]{Setup}{1}{2} \\
+  
+  \ganttbar[
+    progress=10
+  ]{\textbf{1.1} Sign-up}{3}{3} \\
+  
+  \ganttbar[
+    progress=50
+  ]{\textbf{1.2} Log-in}{2}{3} \\
+  
+  % PART 2: Landing page
+  \ganttgroup[progress=0]{Landing Page}{3}{3} \\
+  
+  \ganttbar[
+  progress=0
+  ]{\textbf{2.1} Landing page}{3}{3} \\
+  
+   \\[grid]
+\end{ganttchart}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Timeline from Oct 24, 2018 (F4) to April 10, 2019 (F15)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    today=0,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=7pt},
+    include title in canvas=false,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={left=1cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+    link/.style={-latex, line width=1.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
+  ]{1}{13}
+  \gantttitle[
+    title label node/.append style={below left=7pt and -3pt}
+  ]{FORTNIGHT:\quad1}{0}
+  \gantttitlelist{4,...,15}{1} \\
+  
+  % PART 3: Landing page
+  \ganttgroup[
+    progress=0
+  ]{Landing page}{1}{1} \\
+  
+  % PART 4: ITS
+  \ganttgroup[
+    progress=0
+  ]{ITS}{4}{13} \\
+  
+  \\[grid]
+  
+\end{ganttchart}
+\end{frame}
+
+\begin{frame}
+\frametitle{Timeline from Sep 12 (first commit) to Oct 24 (F3)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    today=2,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=7pt},
+    include title in canvas=false,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={left=1cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+    link/.style={-latex, line width=1.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
   ]{1}{13}
   \gantttitle[
     title label node/.append style={below left=7pt and -3pt}
