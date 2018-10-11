@@ -1,10 +1,20 @@
-<div class="main">
-  <h1>items list</h1>
-  <input value="" type="text" class="texthold">
-  <button Onclick="">Add</button>
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+	
+		<form method="POST" action="/api/user/login">
+
+			<h3 style="text-align:center;">Login Details</h3><br>
+			
+			<label for="id">Enter Username</label>
+			<input type="text" name="username"/>
+			<label for="id">Enter Password</label>
+			<input type="password" name="password"/><br>
+
+			<p class="center-align">
+				<button type="submit" class="waves-effect waves-light btn">Submit</button>
+			</p>
+
+		</form>
+	
+
 </div>
-<li *ngFor = let i in items><span>x</span>
-  <ul>
-    {{i}}
-  </ul>
-</li>
