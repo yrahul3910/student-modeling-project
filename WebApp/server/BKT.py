@@ -1,4 +1,5 @@
 from hmmlearn.hmm import MultinomialHMM
+import numpy as np
 
 
 class BKT:
@@ -18,14 +19,14 @@ class BKT:
         # TODO: Check other parameters to this constructor
         self.model = MultinomialHMM(n_components=2)
 
-    def fit(self):
+    def fit(self) -> None:
         """
         Fits the model to the observed states. Uses the EM algorithm
         to estimate model parameters.
         """
         self.model.fit(self.observed)
 
-    def get_model_params(self):
+    def get_model_params(self) -> tuple:
         """
         Returns the model parameters. This must be run only after
         calling the `fit` function.
@@ -36,3 +37,16 @@ class BKT:
         """
         return self.model.startprob_, self.model.transmat_, \
             self.model.emissionprob_
+
+    def predict(self, sequence) -> np.array:
+        """
+        Returns the most likely hidden state sequence corresponding to
+        `sequence`.
+
+        Args:
+            sequence: List of observable states
+
+        Returns:
+            state_sequence: Array
+        """
+        return self.model.predict(sequence)
