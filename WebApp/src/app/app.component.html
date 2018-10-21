@@ -1,20 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container">
-	
-		<form method="POST" onsubmit="myfunc(document.getElementById('username').value,document.getElementById('password').value)" action="/api/user/login">
-
+	<form method="POST" onsubmit="func()">
 			<h3 style="text-align:center;">Login Details</h3><br>
 			
 			<label for="id">Enter Username</label>
-			<input type="text" name="username"/>
+			<input type="text" id="usr" name="username"/>
 			<label for="id">Enter Password</label>
-			<input type="password" name="password"/><br>
+			<input type="password" id="pass" name="password"/><br>
 
 			<p class="center-align">
 				<button type="submit" class="waves-effect waves-light btn">Submit</button>
 			</p>
-
-		</form>
+	</form>
+	
 	
 
 </div>
