@@ -2,7 +2,7 @@ Today: Oct 4
 
 Sep 12-Sep 26: F1---done
 Sep 26-Oct 10: F2---BKT class
-Oct 10-Oct 24: F3---EDA
+Oct 10-Oct 24: F3---EDA---done
 Oct 24-Nov 07: F4---I-BKT
 Nov 07-Nov 21: F5---(tests), cannot work
 Nov 21-Dec 05: F6---(tests), practical tentative
