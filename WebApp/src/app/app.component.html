@@ -1,18 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container">
-	<form method="POST" onsubmit="func()">
-			<h3 style="text-align:center;">Login Details</h3><br>
-			
-			<label for="id">Enter Username</label>
-			<input type="text" id="usr" name="username"/>
-			<label for="id">Enter Password</label>
-			<input type="password" id="pass" name="password"/><br>
-
-			<p class="center-align">
-				<button type="submit" class="waves-effect waves-light btn">Submit</button>
-			</p>
-	</form>
-	
-	
-
+<div class="container center-align">
+		
+		<h2> Welcome to Student Modeling Final Year Project </h2><br><br>
+		<a routerLink="/signup"><button class="waves-effect yellow-light btn" >Sign Up</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a routerLink="/login"><button class="waves-effect blue-light btn" >Log In</button></a><br><br><br>
+        <router-outlet></router-outlet>
 </div>
+
+
+
