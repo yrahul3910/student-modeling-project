@@ -5,17 +5,21 @@ echo '-----------------------------------'
 yarn
 
 echo '-----------------------------------'
-echo 'Linting code'
+echo 'Linting Python code'
 echo '-----------------------------------'
 pycodestyle server/server.py
-npm run lint
+
+echo '-----------------------------------'
+echo 'Linting Angular code'
+echo '-----------------------------------'
+ng lint
 
 echo '-----------------------------------'
 echo 'Creating dist files'
 echo '-----------------------------------'
-npm run build
+ng build
 
 echo '-----------------------------------'
 echo 'Starting Flask server'
 echo '-----------------------------------'
-FLASK_APP=server/server.py flask run 6000
+FLASK_APP=server/server.py flask run
