@@ -1,0 +1,545 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+
+\mode<presentation> {
+
+\usepackage{pgfgantt}
+\usetheme{Madrid}
+}
+
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\RequirePackage{ifthen} % package required
+
+\newboolean{sectiontoc}
+\setboolean{sectiontoc}{true} % default to true
+
+\title[Statistical Student Modeling]{Statistical Student Modeling}
+\logo{\includegraphics[width=.8cm,keepaspectratio]{logo.png}}
+%\author[Pooja Agarwal]
+\author[]{Rahul Yedida
+\newline
+Ankush Kumar
+\newline
+Srihari Joshi
+\newline	
+Vima Rai} 
+\institute[Batch 48]{Ms. Kundhavai K R
+\newline
+Batch No. - 48}
+\date{\today} 
+
+\newcommand{\sectiontoc}{
+	\begin{frame}
+		\frametitle{Overview}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+\newcommand{\subsectiontoc}{
+	\begin{frame}
+		\frametitle{Overview}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage 
+\end{frame}
+
+\section{Introduction}
+\sectiontoc
+
+\begin{frame}
+\frametitle{Problem Statement / Definition} 
+\begin{itemize}
+		\item<1-> \textbf{Domain:} Educational data mining, statistical learning
+		\item<2-> \textbf{What:} An Intelligent Tutoring System (ITS)
+		\item<3-> \textbf{How:} Several algorithms proposed in literature, based on BKT
+		\item<4-> \textbf{Data:} 2009-10 Skill-builder ASSISTments data
+		\item<5-> \textbf{Metrics:} RMSE, MAE
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Intelligent Tutoring Systems}
+	\begin{itemize}
+		\item<1-> Adaptive teaching systems for elucidating concepts
+		\item<2-> Primarily based on Hidden Markov Models (HMMs)
+		\item<3-> Generated interest after Corbett \& Anderson, 1994.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Motivation}
+	\begin{itemize}
+		\item<1-> Model students learning state
+		\item<2-> Use non-traditional cues, e.g. affect
+		\item<3-> Can modeling help improve education?
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{So what are we doing?}
+	\begin{itemize}
+		\item<1-> Implement a web-based ITS solution
+		\item<2-> Individual models for each user
+		\item<3-> Idea: start with simple models (single concept, basic BKT), go increasingly complex, hopefully implement KAT.
+	\end{itemize}
+\end{frame}
+
+\section{Literature Survey}
+\subsection{Algorithm}
+\subsectiontoc
+
+\begin{frame}{Bayesian Knowledge Tracing (BKT)}
+	\begin{itemize}
+		\item<1-> Proposed by Corbett \& Anderson, 1994.
+		\item<2-> Fundamentally, a two-state HMM--\textit{learned} and \textit{unlearned}.
+		\item<3-> Viterbi algorithm can be used to solve for the hidden state sequence.
+	\end{itemize}
+\end{frame}
+
+\subsection{Extensions}
+\subsectiontoc
+
+\begin{frame}{BKT Extensions}
+	\begin{itemize}
+		\item Pardos and Heffernan, 2011. Incorporated problem difficulty.
+		\item Yudelson et al., 2013. Incorporated student learning speed.
+		\item Schultz and Arroyo, 2014. Combined BKT with HMM-IRT, called Knowledge and Affect Tracing (KAT) model.
+		\item Lin and Chi, 2016. Added student response time directly into the model, creating the Intervention-BKT (I-BKT).
+		\item Spaulding, Gordon, Brezeal, 2016. Used commercial affect-analysis tool called Affdex.
+	\end{itemize}
+\end{frame}
+
+\subsection{Alternatives}
+\subsectiontoc
+
+\begin{frame}{Why not Deep Neural Networks?}
+	\begin{itemize}
+		\item<1-> RNNs, LSTMs successfully applied (Piech et al., 2015; Lin and Chi, 2017)
+		\item<2-> Difficult to interpret!
+		\item<3-> With HMMs, can identify "most likely" hidden state sequence, and can also find HMM parameters (EM algorithm)
+	\end{itemize}
+\end{frame}
+
+\section{Requirements}
+\subsection{Hardware}
+\subsectiontoc
+
+\begin{frame}{User}
+	\begin{itemize}
+		% These are obviously to lighten up the mood.
+		% It's a web app, so there are no hardware requirements
+		% for the end user.
+		\item Working router
+		\item Computer
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Server}
+	\begin{itemize}
+		\item 2 GB RAM
+		\item Optional: GPU, if using affect-aware models
+	\end{itemize}
+\end{frame}
+
+\subsection{Software}
+\subsectiontoc
+
+\begin{frame}{User}
+	Recent web browser
+\end{frame}
+
+\begin{frame}{Server}
+	\begin{itemize}
+		\item Python, Flask
+		\item Node.js, npm
+		\item pycodestyle
+		\item GNU/Linux
+	\end{itemize}
+\end{frame}
+
+\section{Design}
+\sectiontoc
+
+\begin{frame}{High level design}
+\includegraphics[scale=0.5]{high_level.png}
+\end{frame}
+
+\begin{frame}{Sequence diagram}
+\includegraphics[scale=0.4]{Login.png}
+\end{frame}
+
+\begin{frame}{Sequence diagram}
+\includegraphics[scale=0.3]{Working.png}
+\end{frame}
+
+\section{Timeline}
+\subsection{Back End}
+\subsectiontoc
+
+\begin{frame}
+\frametitle{Timeline from Sep 12 (first commit) to Oct 24 (F3)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    today=6,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=7pt},
+    include title in canvas=false,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={left=1cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+    link/.style={-latex, line width=1.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
+  ]{1}{13}
+  \gantttitle[
+    title label node/.append style={below left=7pt and -3pt}
+  ]{FORTNIGHT:\quad1}{1}
+  \gantttitlelist{2,...,10}{1} \\
+  
+  % PART 1: SETUP
+  \ganttgroup[progress=100]{Setup}{1}{2} \\
+  
+  \ganttbar[
+    progress=100
+  ]{\textbf{1.1} Download data}{1}{1} \\
+  
+  \ganttbar[
+    progress=100
+  ]{\textbf{1.2} Hello World}{1}{2} \\
+  
+  % PART 2: STANDARD BKT MODEL
+  \ganttgroup[progress=100]{Standard BKT Model}{2}{3} \\
+  
+  \ganttbar[
+    progress=100
+  ]{\textbf{2.1} Implement Python class}{2}{2} \\
+  
+  \ganttbar[
+    progress=100
+  ]{\textbf{2.2} EDA}{3}{3} \\
+  
+   \\[grid]
+  
+\end{ganttchart}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Timeline from Oct 24, 2018 (F4) to April 10, 2019 (F15)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    today=2,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=7pt},
+    include title in canvas=false,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={left=1cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+    link/.style={-latex, line width=1.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
+  ]{1}{13}
+  \gantttitle[
+    title label node/.append style={below left=7pt and -3pt}
+  ]{FORTNIGHT:\quad1}{0}
+  \gantttitlelist{4,...,15}{1} \\
+  
+  % PART 3: I-BKT
+  \ganttgroup[progress=0]{I-BKT}{1}{1} \\
+  
+  % PART 4: KAT MODEL
+  \ganttgroup[progress=0]{KAT Model}{7}{9} \\
+  
+  \ganttbar[
+    progress=0
+  ]{\textbf{4.1} Implement affect analysis}{7}{8} \\
+  
+  \ganttbar[
+    progress=0
+  ]{\textbf{4.2} Implement model}{9}{9} \\
+  
+   \\[grid]
+  
+\end{ganttchart}
+\end{frame}
+
+\subsection{Front end}
+\subsectiontoc
+
+\begin{frame}
+\frametitle{Timeline from Sep 12 (first commit) to Oct 24 (F3)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+	canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+	hgrid style/.style={draw=black!5, line width=.75pt},
+	vgrid={*1{draw=black!5, line width=.75pt}},
+	today=6,
+	today rule/.style={
+		draw=black!64,
+		dash pattern=on 3.5pt off 4.5pt,
+		line width=1.5pt
+	},
+	today label font=\small\bfseries,
+	title/.style={draw=none, fill=none},
+	title label font=\bfseries\footnotesize,
+	title label node/.append style={below=7pt},
+	include title in canvas=false,
+	bar label font=\mdseries\small\color{black!70},
+	bar label node/.append style={left=1cm},
+	bar/.append style={draw=none, fill=black!63},
+	bar incomplete/.append style={fill=barblue},
+	bar progress label font=\mdseries\footnotesize\color{black!70},
+	group incomplete/.append style={fill=groupblue},
+	group left shift=0,
+	group right shift=0,
+	group height=.5,
+	group peaks tip position=0,
+	group label node/.append style={left=.6cm},
+	group progress label font=\bfseries\small,
+	link/.style={-latex, line width=1.5pt, linkred},
+	link label font=\scriptsize\bfseries,
+	link label node/.append style={below left=-2pt and 0pt}
+	]{1}{13}
+	\gantttitle[
+	title label node/.append style={below left=7pt and -3pt}
+	]{FORTNIGHT:\quad1}{1}
+	\gantttitlelist{2,...,10}{1} \\
+	
+	% PART 1: Setup
+	\ganttgroup[progress=100]{Setup}{1}{2} \\
+	
+	\ganttbar[
+	progress=10
+	]{\textbf{1.1} Sign-up}{3}{3} \\
+	
+	\ganttbar[
+	progress=50
+	]{\textbf{1.2} Log-in}{2}{3} \\
+	
+	% PART 2: Landing page
+	\ganttgroup[progress=0]{Landing Page}{3}{3} \\
+	
+	\ganttbar[
+	progress=0
+	]{\textbf{2.1} Landing page}{3}{3} \\
+	
+	\\[grid]
+\end{ganttchart}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Timeline from Oct 24, 2018 (F4) to April 10, 2019 (F15)}
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+\sffamily
+
+\begin{ganttchart}[
+canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+hgrid style/.style={draw=black!5, line width=.75pt},
+vgrid={*1{draw=black!5, line width=.75pt}},
+today=2,
+today rule/.style={
+	draw=black!64,
+	dash pattern=on 3.5pt off 4.5pt,
+	line width=1.5pt
+},
+today label font=\small\bfseries,
+title/.style={draw=none, fill=none},
+title label font=\bfseries\footnotesize,
+title label node/.append style={below=7pt},
+include title in canvas=false,
+bar label font=\mdseries\small\color{black!70},
+bar label node/.append style={left=1cm},
+bar/.append style={draw=none, fill=black!63},
+bar incomplete/.append style={fill=barblue},
+bar progress label font=\mdseries\footnotesize\color{black!70},
+group incomplete/.append style={fill=groupblue},
+group left shift=0,
+group right shift=0,
+group height=.5,
+group peaks tip position=0,
+group label node/.append style={left=.6cm},
+group progress label font=\bfseries\small,
+link/.style={-latex, line width=1.5pt, linkred},
+link label font=\scriptsize\bfseries,
+link label node/.append style={below left=-2pt and 0pt}
+]{1}{13}
+\gantttitle[
+title label node/.append style={below left=7pt and -3pt}
+]{FORTNIGHT:\quad1}{0}
+\gantttitlelist{4,...,15}{1} \\
+
+% PART 3: Landing page
+\ganttgroup[
+progress=0
+]{Landing page}{1}{1} \\
+
+% PART 4: ITS
+\ganttgroup[
+progress=0
+]{ITS}{4}{13} \\
+
+\\[grid]
+
+\end{ganttchart}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\begin{footnotesize}
+	\begin{thebibliography}{99}
+		\bibitem{p1} A. T. Corbett and J. R. Anderson (1994)
+		\newblock Knowledge tracing: Modeling the acquisition of procedural knowledge
+		\newblock \emph{User modeling and user-adapted interaction,} 4(4), 253 -- 278.
+		
+		\bibitem{p1} R. S. d Baker, A. T. Corbett, and V. Aleven (2008)
+		\newblock More accurate student modeling through contextual estimation of slip and guess probabilities in bayesian knowledge tracing
+		\newblock \emph{Intelligent Tutoring Systems,} 253 -- 278, Springer.
+		
+		\bibitem{p1} C. Lin and M. Chi (2016)
+		\newblock Intervention-bkt: incorporating instructional interventions into bayesian knowledge tracing
+		\newblock \emph{International Conference on Intelligent Tutoring Systems,} 208 -- 218, Springer.
+		
+		\bibitem{p1} S. Chiappa and S. Bengio (2003)
+		\newblock Hmm and iohmm modeling of eeg rhythms
+for asynchronous bci systems
+		\newblock \emph{Tech. rep.,} IDIAP.
+	\end{thebibliography}
+\end{footnotesize}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\begin{footnotesize}
+	\begin{thebibliography}{99}
+		\bibitem{p1} S. Spaulding, G. Gordon, and C. Breazeal (2016)
+		\newblock Affect-aware student models for robot tutors
+		\newblock \emph{Proceedings of the 2016 International Conference on Autonomous Agents \& Multiagent Systems,} 864 -- 872, International
+Foundation for Autonomous Agents and Multiagent Systems.
+		
+		\bibitem{p1} S. Schultz and I. Arroyo (2014)
+		\newblock Tracing knowledge and engagement in parallel in an intelligent tutoring system
+		\newblock \emph{Educational Data Mining}.
+		
+		\bibitem{p1} Z. A. Pardos and N. T. Heffernan (2011)
+		\newblock Kt-idem: introducing item difficulty to the knowledge tracing model
+		\newblock \emph{International Conference on User Modeling, Adaptation, and Personalization,} 243 -- 254, Springer.
+		
+		\bibitem{p1} M. V. Yudelson, K. R. Koedinger, and G. J. Gordon (2013)
+		\newblock Individualized bayesian knowledge tracing models
+		\newblock \emph{International Conference on Artificial Intelligence in Education,} 171 -- 180, Springer.
+	\end{thebibliography}
+\end{footnotesize}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\begin{footnotesize}
+	\begin{thebibliography}{99}
+		\bibitem{p1} C. Piech, J. Bassen, J. Huang, S. Ganguli, M. Sahami, L. J. Guibas, and J. Sohl-Dickstein, (2015)
+		\newblock Deep knowledge tracing
+		\newblock \emph{Advances in Neural Information Processing Systems,} 505 -- 513.
+		
+		\bibitem{p1} C. Lin and M. Chi (2017)
+		\newblock A comparisons of bkt, rnn and lstm for learning gain prediction
+		\newblock \emph{International Conference on Artificial Intelligence in Education,} 536 -- 539, Springer.
+		
+		\bibitem{p1} Z. C. Lipton, D. C. Kale, C. Elkan, and R. Wetzel (2015)
+		\newblock Learning to diagnose with lstm recurrent neural networks
+		\newblock \emph{arXiv preprint,} arXiv:1511.03677.
+		
+		\bibitem{p1} J. Johns and B. Woolf (2006)
+		\newblock A dynamic mixture model to detect student motivation and proficiency
+		\newblock \emph{Proceedings of the National Conference on Artificial Intelligence,} 21(1), 163, AAAI Press; MIT Press.
+	\end{thebibliography}
+\end{footnotesize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\Huge{\centerline{The End}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
