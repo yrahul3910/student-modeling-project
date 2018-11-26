@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-<<<<<<< HEAD
   title = 'client-app';
-=======
-
-	
->>>>>>> 0e7fb64... login_signup
 }
