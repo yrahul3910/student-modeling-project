@@ -14,7 +14,7 @@ def create_account():
     username = input('Enter a username: ')
     pwd = cutie.secure_input('Select a password: ')
 
-    r = requests.post('localhost:5000/api/user/signup', data={
+    r = requests.post('http://localhost:5000/api/user/signup', json={
         'name': name,
         'username': username,
         'password': pwd
@@ -35,7 +35,7 @@ def login():
     username = input('Enter your username: ')
     pwd = cutie.secure_input('Enter your password: ')
 
-    r = requests.post('localhost:5000/api/user/login', data={
+    r = requests.post('http://localhost:5000/api/user/login', json={
         'username': username,
         'password': pwd
     })
@@ -56,7 +56,7 @@ def next_question():
         print('You must first log in.')
         return
 
-    r = requests.post('localhost:5000/api/session/get_question', data={
+    r = requests.post('http://localhost:5000/api/session/get_question', json={
         'token': token
     })
 
@@ -109,7 +109,7 @@ def start_session():
         responses))
 
     # Pass data to server
-    r = requests.post('localhost:5000/api/session/end', data={
+    r = requests.post('http://localhost:5000/api/session/end', json={
         'token': token,
         'responses': responses
     })
