@@ -1,24 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {HttpClientModule} from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css']
 })
 export class LoginComponent{
-	constructor(private http: HttpClient) {}
+	token:string;
+	constructor(private http: HttpClient, private router:Router) {}
 	onClickSubmit(data) {
-
-		var x = '{"username":"'+data.username+'","password":"'+data.password+'"}';
-		var obj = JSON.parse(x);
-		var options = {
-  			headers: { 'Content-Type': ['application/json'], 
-  					   'Accept': ['application/json'] }
+		console.clear();
+		const options = {
+  			headers: { 'Content-Type': ['application/json'],'Accept': ['application/json'] }
 		};
-		this.http.post('/api/user/login', obj,options).subscribe(
+		this.http.post('/api/user/login',data,options).subscribe(
       		suc => {
-            	console.log(suc);
+				if(data['userType']=='Student'){
+					this.token = suc['token'];
+					console.log(suc);
+					this.router.navigate(['/student'],{ queryParams:{'token':this.token}});
+				}
+				else if(data['userType']=='Teacher'){
+					this.token = suc['token'];
+					console.log(this.token);
+					this.router.navigate(['/teacher'],{ queryParams:{'token':this.token}});
+				}
+				else{
+					console.log('Invalid User Type');
+				}
+            	
 	        },
 	        err => {
 	            console.log(err);

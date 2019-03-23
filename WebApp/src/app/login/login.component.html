@@ -1,10 +1,23 @@
-<form #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)">
-	Enter Username:
-   <input type = "text" name = "username" ngModel>
-   <br/>
-    Enter Password
-   <input type = "password" name = "password" ngModel>
-   <br/><br>
-   <button class='center-align waves-effect waves-light btn' type = "submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-   <br><br>
-</form>
+<div class="card white darken-1 center-align" style="margin-top:10%;">
+    <h4>Login</h4>
+    <form #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)">
+        Enter Username:
+        <input type="text" name="username" style="width:50%;" ngModel>  
+        <br/>
+        Enter Password:
+        <input type="password" name="password" style="width:50%;" ngModel>
+        <br/><br>
+        
+        Enter User Type:
+        <select name="userType" ngModel style="display:inline; width:50%; margin:0 auto;">
+            <option value="" disabled selected>Choose your option</option>
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+        </select>
+        
+        <br><br>
+        <a routerLink="/signup"><button class="waves-effect yellow-light btn">Sign Up</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class='center-align waves-effect waves-light btn' type="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br><br>
+    </form>
+</div>
