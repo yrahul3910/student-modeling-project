@@ -10,6 +10,7 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { StudentComponent } from './student/student.component';
 import { TestComponent } from './test/test.component';
 import { ViewresultComponent } from './viewresult/viewresult.component';
+import { HttpClient } from '@angular/common/http';
 
 const appRoutes: Routes = [
     { path: '', component:LoginComponent },
