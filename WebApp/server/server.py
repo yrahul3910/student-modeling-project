@@ -4,6 +4,8 @@ import bcrypt
 import pymongo
 import jwt
 import re
+import datetime
+import json
 
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
@@ -174,6 +176,57 @@ def user_details():
     except Exception:
         response = '{"success":false, "error": "Invalid token"}'
         return Response(response, status=401, mimetype='application/json')
+
+
+@app.route('/api/session/submit', methods=['POST'])
+def submit_response():
+    """
+    Adds a user response to the database. Takes
+    {
+        question_id: The question ID from the questions collection
+        response: User's response, int
+        correct: Correct answer, int,
+        token: string
+    }
+    Returns 401 if token is invalid, and 200 otherwise.
+    """
+    data = request.get_json()
+    qid = data['question_id']
+    response = data['response']
+    answer = data['correct']
+    token = data['token']
+
+    try:
+        decoded = jwt.decode(token, key=secret)
+        username = decoded['username']
+    except Exception:
+        response = '{"success":false, "error": "Invalid token"}'
+        return Response(response, status=401, mimetype='application/json')
+
+    responses_coll = db.get_collection('responses')
+    responses_coll.insert_one({
+        'question_id': qid,
+        'response': int(response),
+        'answer': int(answer),
+        'date': datetime.datetime.now().isoformat(),
+        'username': username
+    })
+    return Response('{"success": true}', status=200, mimetype='application/json')
+
+
+@app.route('/api/concepts/list', methods=['GET'])
+def list_concepts():
+    """
+    Returns a list of all concepts.
+    """
+    ques_coll = db.get_collection('questions')
+    docs = ques_coll.find({}, projection=['concept'])
+    docs = list(docs)
+    concepts = list(map(lambda x: x['concept'], docs))
+    uniq_concepts = list(set(concepts))
+
+    return_doc = json.dumps({'concepts': uniq_concepts})
+    return Response(return_doc, status=200, mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})

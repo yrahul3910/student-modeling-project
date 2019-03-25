@@ -49,15 +49,16 @@ def login():
     print('Login successful.')
 
 
-def next_question():
-    global token
+def next_question(concept):
+    global token, responses
 
-    if token is not None:
+    if token is None:
         print('You must first log in.')
         return
 
     r = requests.post('http://localhost:5000/api/session/get_question', json={
-        'token': token
+        'token': token,
+        'concept': concept
     })
 
     if r.status_code == 401:
@@ -77,6 +78,13 @@ def next_question():
     else:
         print('Incorrect: The right answer is', answer)
 
+    r = requests.post('http://localhost:5000/api/session/submit', json={
+        'question_id': data['question_id'],
+        'response': selected,
+        'correct': answer,
+        'token': token
+    })
+
     if r.status_code != 200:
         print(r.json())
 
@@ -93,10 +101,11 @@ def start_session():
     global token, responses
 
     questions = 0
+    concept = input("Enter the concept you want to practice: ")
 
     # Continue showing more questions as long as user wants
     while True:
-        next_question()
+        next_question(concept)
         questions += 1
 
         if not cutie.prompt_yes_or_no('Continue?'):
@@ -108,11 +117,15 @@ def start_session():
         lambda obj: obj['response'] == obj['correct'],
         responses))
 
-    # Pass data to server
-    r = requests.post('http://localhost:5000/api/session/end', json={
-        'token': token,
-        'responses': responses
-    })
+
+def list_concepts():
+    r = requests.get('http://localhost:5000/api/concepts/list')
+
+    if r.status_code == 200:
+        print('\nConcepts:\n=========')
+        for concept in json.loads(r.text)['concepts']:
+            print(concept)
+    print('\n\n')
 
 
 def stop():
@@ -124,11 +137,12 @@ if __name__ == '__main__':
         options = [
             'Login',
             'Sign up',
+            'List concepts',
             'Start session',
             'Quit'
         ]
 
         option = cutie.select(options, selected_index=0)
-        actions = [login, create_account, start_session, stop]
+        actions = [login, create_account, list_concepts, start_session, stop]
 
         actions[option]()
