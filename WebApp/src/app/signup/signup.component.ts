@@ -6,16 +6,14 @@ import {HttpClientModule} from '@angular/common/http';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent{
-	constructor(private http: HttpClient) {}
-	onClickSubmit(data) {
-
-		var x = '{"name":"'+data.name+'","username":"'+data.username+'","password":"'+data.password+'"}';
-		var obj = JSON.parse(x);
-		var options = {
-  			headers: { 'Content-Type': ['application/json'], 
-  					   'Accept': ['application/json'] }
+	constructor(private http: HttpClient) {
+        
+    }
+	onClickSubmit(data) {	
+		const options = {
+  			headers: { 'Content-Type': ['application/json'],'Accept': ['application/json'] }
 		};
-		this.http.post('/api/user/signup', obj,options).subscribe(
+		this.http.post('/api/user/signup',data,options).subscribe(
       		suc => {
             	console.log(suc);
 	        },
