@@ -6,6 +6,14 @@ import jwt
 import re
 import datetime
 import json
+from bson.objectid import ObjectId
+import numpy as np
+
+from catsim.cat import generate_item_bank
+from catsim.initialization import RandomInitializer
+from catsim.selection import MaxInfoSelector
+from catsim.estimation import HillClimbingEstimator
+from catsim.simulation import Simulator
 
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
@@ -196,6 +204,11 @@ def submit_response():
     answer = data['correct']
     token = data['token']
 
+    # Get concept name for convenience later
+    ques_coll = db.get_collection('questions')
+    concept = ques_coll.find_one({'_id': ObjectId(qid)})['concept']
+
+    # Get the username from the JWT
     try:
         decoded = jwt.decode(token, key=secret)
         username = decoded['username']
@@ -203,15 +216,18 @@ def submit_response():
         response = '{"success":false, "error": "Invalid token"}'
         return Response(response, status=401, mimetype='application/json')
 
+    # Insert all the data
     responses_coll = db.get_collection('responses')
     responses_coll.insert_one({
         'question_id': qid,
         'response': int(response),
         'answer': int(answer),
         'date': datetime.datetime.now().isoformat(),
-        'username': username
+        'username': username,
+        'concept': concept
     })
-    return Response('{"success": true}', status=200, mimetype='application/json')
+    return Response('{"success": true}', status=200,
+                    mimetype='application/json')
 
 
 @app.route('/api/concepts/list', methods=['GET'])
@@ -219,14 +235,94 @@ def list_concepts():
     """
     Returns a list of all concepts.
     """
+    # Get all questions
     ques_coll = db.get_collection('questions')
     docs = ques_coll.find({}, projection=['concept'])
     docs = list(docs)
+
+    # Filter out only the concept and extract unique concepts
     concepts = list(map(lambda x: x['concept'], docs))
     uniq_concepts = list(set(concepts))
 
     return_doc = json.dumps({'concepts': uniq_concepts})
     return Response(return_doc, status=200, mimetype='application/json')
+
+
+@app.route('/api/session/get_question', methods=['POST'])
+def fetch_question():
+    """
+    Gets the next question, given the user and concept name. Takes JSON
+    {
+        token: str,
+        concept: str
+    }
+    and returns a document from the MongoDB database. Sends 401 if the 
+    token is invalid
+    """
+    data = request.get_json()
+    token = data['token']
+    concept = data['concept']
+
+    # Decode the JWT to get the username
+    try:
+        decoded = jwt.decode(token, key=secret)
+        username = decoded['username']
+    except Exception:
+        response = '{"success":false, "error": "Invalid token"}'
+        return Response(response, status=401, mimetype='application/json')
+
+    # Get a list of the questions to get the bank size and the list of items
+    ques_coll = db.get_collection('questions')
+    concept_questions = list(ques_coll.find({'concept': concept}))
+
+    # catsim usage from https://arxiv.org/pdf/1707.03012.pdf
+    # Generate an item bank
+    bank_size = len(concept_questions)
+    item_bank = generate_item_bank(bank_size)
+
+    # Get a list of user responses (correct or incorrect), and also extract
+    # the list of administered questions
+    responses_coll = db.get_collection('responses')
+    user_responses = list(
+        responses_coll.find({'username': username, 'concept': concept})
+    )
+    responses = list(
+        map(lambda x: x['answer'] == x['response'], user_responses)
+    )
+
+    # To get the administered questions, first sort by date. But we need
+    # INDICES, or INTEGERS, not _ids!
+    administered_items = sorted(administered_items, key=lambda x: x['date'])
+
+    # Map to indices: first, make np array copies
+    questions = np.array(concept_questions)
+    items = np.array(administered_items)
+
+    # From https://stackoverflow.com/a/52297636/2713263
+    indices = np.where(items.reshape(items.shape, 1) == questions)[1]
+
+    # Enough with our detour: continue using catsim!
+    initializer = RandomInitializer()
+    est_theta = initializer.initialize()
+    estimator = HillClimbingEstimator()
+    new_theta = estimator.estimate(
+        items=item_bank,
+        administered_items=list(indices),
+        response_vector=responses,
+        est_theta=est_theta
+    )
+    selector = MaxInfoSelector()
+    item_index = selector.select(
+        items=item_bank,
+        administered_items=list(indices),
+        est_theta=new_theta
+    )
+
+    # Now get the question that we need to return
+    next_question = questions[item_index]
+
+    return Response(json.dumps(next_question), status=200,
+                    mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})
