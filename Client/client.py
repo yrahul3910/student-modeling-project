@@ -72,6 +72,7 @@ def next_question(concept):
 
     # We need to do two things: check the answer and inform the user of
     # the result, and store this info
+    print(question)
     selected = cutie.select(options, selected_index=0)
     if selected == answer:
         print('Correct!')
@@ -79,7 +80,7 @@ def next_question(concept):
         print('Incorrect: The right answer is', answer)
 
     r = requests.post('http://localhost:5000/api/session/submit', json={
-        'question_id': data['question_id'],
+        'question_id': data['_id'],
         'response': selected,
         'correct': answer,
         'token': token
@@ -89,7 +90,7 @@ def next_question(concept):
         print(r.json())
 
     responses.append({
-        'question_id': data['question_id'],
+        'question_id': data['_id'],
         'response': selected,
         'correct': answer
     })

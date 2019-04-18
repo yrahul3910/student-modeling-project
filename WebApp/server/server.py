@@ -11,7 +11,7 @@ import numpy as np
 
 from catsim.cat import generate_item_bank
 from catsim.initialization import RandomInitializer
-from catsim.selection import MaxInfoSelector
+from catsim.selection import MaxInfoSelector, UrrySelector
 from catsim.estimation import HillClimbingEstimator
 from catsim.simulation import Simulator
 
@@ -286,20 +286,31 @@ def fetch_question():
     user_responses = list(
         responses_coll.find({'username': username, 'concept': concept})
     )
-    responses = list(
-        map(lambda x: x['answer'] == x['response'], user_responses)
-    )
+
+    if len(user_responses) == 0:
+        next_question = concept_questions[0]
+        next_question['_id'] = str(next_question['_id'])
+        return Response(json.dumps(next_question), status=200,
+                        mimetype='application/json')
 
     # To get the administered questions, first sort by date. But we need
     # INDICES, or INTEGERS, not _ids!
-    administered_items = sorted(administered_items, key=lambda x: x['date'])
+    administered_items = sorted(user_responses, key=lambda x: x['date'])
+    responses = list(
+        map(lambda x: x['answer'] == x['response'], administered_items)
+    )
 
     # Map to indices: first, make np array copies
     questions = np.array(concept_questions)
     items = np.array(administered_items)
 
+    items = list(map(lambda x: x['question_id'], items))
+    items = np.array(items)
+    questions = list(map(lambda x: str(x['_id']), questions))
+    questions = np.array(questions)
+
     # From https://stackoverflow.com/a/52297636/2713263
-    indices = np.where(items.reshape(items.shape, 1) == questions)[1]
+    indices = np.where(items.reshape(items.size, 1) == questions)[0]
 
     # Enough with our detour: continue using catsim!
     initializer = RandomInitializer()
@@ -311,7 +322,7 @@ def fetch_question():
         response_vector=responses,
         est_theta=est_theta
     )
-    selector = MaxInfoSelector()
+    selector = UrrySelector()
     item_index = selector.select(
         items=item_bank,
         administered_items=list(indices),
@@ -319,7 +330,8 @@ def fetch_question():
     )
 
     # Now get the question that we need to return
-    next_question = questions[item_index]
+    next_question = concept_questions[item_index]
+    next_question['_id'] = str(next_question['_id'])
 
     return Response(json.dumps(next_question), status=200,
                     mimetype='application/json')
