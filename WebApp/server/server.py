@@ -9,6 +9,8 @@ import json
 from bson.objectid import ObjectId
 import numpy as np
 
+from BKT import BKT
+
 from catsim.cat import generate_item_bank
 from catsim.initialization import RandomInitializer
 from catsim.selection import MaxInfoSelector, UrrySelector
@@ -256,7 +258,7 @@ def fetch_question():
         token: str,
         concept: str
     }
-    and returns a document from the MongoDB database. Sends 401 if the 
+    and returns a document from the MongoDB database. Sends 401 if the
     token is invalid
     """
     data = request.get_json()
@@ -334,6 +336,51 @@ def fetch_question():
     next_question['_id'] = str(next_question['_id'])
 
     return Response(json.dumps(next_question), status=200,
+                    mimetype='application/json')
+
+
+@app.route('/api/user/performance', methods=['POST'])
+def get_concept_performance():
+    """
+    Gets a student's performance in a concept. Accepts POST request
+    with data
+    {
+        concept: string,
+        student: string, (username)
+    }
+    At the moment, no authentication mechanism for accessing this
+    data is implemented.
+    """
+    data = request.get_json()
+    concept = data['concept']
+    username = data['student']
+
+    responses_coll = db.get_collection('responses')
+    user_responses = list(
+        responses_coll.find({'username': username, 'concept': concept})
+    )
+
+    if len(user_responses) == 0:
+        response = {
+            'success': False,
+            'error': 'No data for this student and concept'
+        }
+        return Response(json.dumps(response), status=200,
+                        mimetype='application/json')
+
+    correct_responses = list(map(lambda x: int(x['answer'] == x['response']),
+                                 user_responses))
+    model = BKT(correct_responses)
+    model.fit()
+    start, transition, emission = model.get_model_params()
+
+    response = {
+        'success': True,
+        'start_probs': start.tolist(),
+        'transition_probs': transition.tolist(),
+        'emission_probs': emission.tolist()
+    }
+    return Response(json.dumps(response), status=200,
                     mimetype='application/json')
 
 

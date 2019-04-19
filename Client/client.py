@@ -2,6 +2,7 @@ import requests
 import json
 import cutie
 from functools import reduce
+from pprint import pprint
 
 token = None
 responses = []
@@ -129,6 +130,18 @@ def list_concepts():
     print('\n\n')
 
 
+def show_results():
+    concept = input('Enter the concept: ')
+    user = input('Enter the student username: ')
+
+    r = requests.post('http://localhost:5000/api/user/performance', json={
+        'concept': concept,
+        'student': user
+    })
+
+    pprint(r.json())
+
+
 def stop():
     exit(0)
 
@@ -140,10 +153,12 @@ if __name__ == '__main__':
             'Sign up',
             'List concepts',
             'Start session',
+            'Show results',
             'Quit'
         ]
 
         option = cutie.select(options, selected_index=0)
-        actions = [login, create_account, list_concepts, start_session, stop]
+        actions = [login, create_account, list_concepts, start_session,
+                   show_results, stop]
 
         actions[option]()

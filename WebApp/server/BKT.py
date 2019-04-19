@@ -15,7 +15,10 @@ class BKT:
         Args:
             observed: array-like, shape (n_samples, n_features)
         """
-        self.observed = observed
+        self.observed = np.array(observed)
+
+        if len(self.observed.shape) == 1:
+            self.observed = self.observed.reshape(-1, 1)
         # TODO: Check other parameters to this constructor
         self.model = MultinomialHMM(n_components=2)
 
