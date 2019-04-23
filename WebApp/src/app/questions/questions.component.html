@@ -1,0 +1,8 @@
+<div class="card white darken-1 center-align" style="margin-top:10%;">
+  <h5>{{question}}</h5><br><br>  
+  <b>Select an Option</b><br><br>
+  <select [(ngModel)]="selectedAnswer" materialize="material_select" style="display:block;">
+    <option name="answer" *ngFor="let x of options;let i=index" [value]="i">{{x}}</option>
+  </select><br><br>
+  <button class='center-align waves-effect waves-light btn' type="submit" (click)="checkAnswer()">Submit</button><br><br>
+</div>
