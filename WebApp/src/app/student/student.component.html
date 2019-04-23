@@ -7,9 +7,20 @@
   </div>
 </nav>
 <div class="card white darken-1 center-align" style="margin-top:10%;">
-  <h3>Click here to take your test!</h3>
-  <button class='center-align waves-effect waves-light btn' type="submit" routerLink="/test">Take Test</button>&nbsp;&nbsp;&nbsp;&nbsp;
-  <button class='center-align waves-effect waves-light btn' type="submit" routerLink="/view">View Result</button>&nbsp;&nbsp;&nbsp;&nbsp; 
+  <form #conceptForm="ngForm" (ngSubmit)="onClickSubmit(conceptForm.value)">
+    <h3>Click here to take your test!</h3>
+    Concept Type &nbsp;
+    <select name="conceptType" ngModel style="display:inline; width:50%; margin:0 auto;">
+        <option value="" disabled selected>Choose your concept</option>
+        <option value="Computational Neuroscience">Computational Neuroscience</option>
+        <option value="Introduction to Sociology">Introduction to Sociology</option>
+        <option value="Functional Analysis">Functional Analysis</option>
+        <option value="Operating System">Operating System</option>
+        <option value="Machine Learning">Machine Learning</option>
+    </select><br><br><br>
+    <button class='center-align waves-effect waves-light btn' type="submit">Take Test</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class='center-align waves-effect waves-light btn' routerLink="/view">View Result</button>&nbsp;&nbsp;&nbsp;&nbsp; 
+  </form>
 </div>
 
 <footer class="page-footer teal" style="position:fixed;bottom:0;left:0;width:100%;">

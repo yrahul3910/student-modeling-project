@@ -7,19 +7,27 @@
     </div>
 </nav>
 <div class="card white darken-1 center-align" style="margin-top:10%;">
-    <h3>List of Students</h3>
-        <!-- <ul class="collection">
-            <li class="collection-item row">
-                <div class="col s6">Alvin</div><div class="col s3"><a routerLink="/view" class="secondary-content">View</a></div>    
-            </li>
-            <li class="collection-item row">
-                <div class="col s6">Vima</div><div class="col s3"><a routerLink="/view" class="secondary-content">View</a></div>    
-            </li>
-            <li class="collection-item row">
-                <div class="col s6">Ankush</div><div class="col s3"><a routerLink="/view" class="secondary-content">View</a></div>    
-            </li>
-        </ul> -->
-
+    <br>
+    <h3>Enter Details for Performance Report</h3>
+    <form #performance="ngForm" (ngSubmit)="onClickSubmit(performance.value)">
+        Enter Username:
+        <input type="text" name="student" style="width:50%;" ngModel>  
+        <br><br>
+        
+        Concept Type &nbsp;
+        <select name="concept" ngModel style="display:inline; width:50%; margin:0 auto;">
+            <option value="" disabled selected>Choose your concept</option>
+            <option value="Computational Neuroscience">Computational Neuroscience</option>
+            <option value="Introduction to Sociology">Introduction to Sociology</option>
+            <option value="Functional Analysis">Functional Analysis</option>
+            <option value="Operating System">Operating System</option>
+            <option value="Machine Learning">Machine Learning</option>
+        </select><br><br><br>
+        
+        <br><br>
+        <button class='center-align waves-effect waves-light btn' type="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br><br>
+    </form>
 </div>
 
 <footer class="page-footer teal" style="position:fixed;bottom:0;left:0;width:100%;">
