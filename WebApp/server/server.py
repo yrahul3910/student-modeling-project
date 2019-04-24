@@ -10,6 +10,7 @@ from bson.objectid import ObjectId
 import numpy as np
 
 from BKT import BKT
+from AdaptiveTester import AdaptiveTester
 
 from catsim.cat import generate_item_bank
 from catsim.initialization import RandomInitializer
@@ -277,11 +278,6 @@ def fetch_question():
     ques_coll = db.get_collection('questions')
     concept_questions = list(ques_coll.find({'concept': concept}))
 
-    # catsim usage from https://arxiv.org/pdf/1707.03012.pdf
-    # Generate an item bank
-    bank_size = len(concept_questions)
-    item_bank = generate_item_bank(bank_size)
-
     # Get a list of user responses (correct or incorrect), and also extract
     # the list of administered questions
     responses_coll = db.get_collection('responses')
@@ -289,52 +285,40 @@ def fetch_question():
         responses_coll.find({'username': username, 'concept': concept})
     )
 
-    if len(user_responses) == 0:
-        next_question = concept_questions[0]
-        next_question['_id'] = str(next_question['_id'])
-        return Response(json.dumps(next_question), status=200,
-                        mimetype='application/json')
-
     # To get the administered questions, first sort by date. But we need
     # INDICES, or INTEGERS, not _ids!
     administered_items = sorted(user_responses, key=lambda x: x['date'])
     responses = list(
         map(lambda x: x['answer'] == x['response'], administered_items)
     )
-
-    # Map to indices: first, make np array copies
-    questions = np.array(concept_questions)
-    items = np.array(administered_items)
-
-    items = list(map(lambda x: x['question_id'], items))
-    items = np.array(items)
-    questions = list(map(lambda x: str(x['_id']), questions))
-    questions = np.array(questions)
-
-    # From https://stackoverflow.com/a/52297636/2713263
-    indices = np.where(items.reshape(items.size, 1) == questions)[0]
-
-    # Enough with our detour: continue using catsim!
-    initializer = RandomInitializer()
-    est_theta = initializer.initialize()
-    estimator = HillClimbingEstimator()
-    new_theta = estimator.estimate(
-        items=item_bank,
-        administered_items=list(indices),
-        response_vector=responses,
-        est_theta=est_theta
+    
+    # Get indices--we need an array of indices of administered items.
+    # These indices are with respect to concept_questions.
+    concept_ids = list(
+        map(lambda obj: str(obj['_id']), concept_questions)
     )
-    selector = IntervalInfoSelector()
-    item_index = selector.select(
-        items=item_bank,
-        administered_items=list(indices),
-        est_theta=new_theta
+    administered_ids = list(
+        map(lambda obj: str(obj['question_id']), administered_items)
     )
 
-    if item_index is None:
-        item_index = np.random.randint(0, len(concept_questions) - 1)
+    # Now, convert to numpy arrays
+    concept_ids = np.array(concept_ids)
+    administered_ids = np.array(administered_ids)
+
+    # Now, get the indices. For each item x in administered_ids, find the
+    # index of x in concept_ids.
+    indices = list(
+        map(lambda x: np.where(concept_ids == x)[0][0], administered_ids)
+    )
+
+    selector = AdaptiveTester(item_count=len(concept_questions),
+                              administered=indices,
+                              responses=responses,
+                              bucket_size=5)
+    item_index = selector.get_next_question()
 
     # Now get the question that we need to return
+    print('Index:', item_index)
     next_question = concept_questions[item_index]
     next_question['_id'] = str(next_question['_id'])
 
