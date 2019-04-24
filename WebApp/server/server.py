@@ -13,7 +13,7 @@ from BKT import BKT
 
 from catsim.cat import generate_item_bank
 from catsim.initialization import RandomInitializer
-from catsim.selection import MaxInfoSelector, UrrySelector
+from catsim.selection import UrrySelector, IntervalInfoSelector
 from catsim.estimation import HillClimbingEstimator
 from catsim.simulation import Simulator
 
@@ -324,12 +324,15 @@ def fetch_question():
         response_vector=responses,
         est_theta=est_theta
     )
-    selector = UrrySelector()
+    selector = IntervalInfoSelector()
     item_index = selector.select(
         items=item_bank,
         administered_items=list(indices),
         est_theta=new_theta
     )
+
+    if item_index is None:
+        item_index = np.random.randint(0, len(concept_questions) - 1)
 
     # Now get the question that we need to return
     next_question = concept_questions[item_index]

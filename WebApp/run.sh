@@ -2,7 +2,8 @@
 echo '-----------------------------------'
 echo 'Installing packages'
 echo '-----------------------------------'
-yarn
+npm i
+sudo npm link @angular/cli
 
 echo '-----------------------------------'
 echo 'Linting Python code'

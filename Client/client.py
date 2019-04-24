@@ -78,7 +78,7 @@ def next_question(concept):
     if selected == answer:
         print('Correct!')
     else:
-        print('Incorrect: The right answer is', answer)
+        print('Incorrect: The right answer is option', answer+1)
 
     r = requests.post('http://localhost:5000/api/session/submit', json={
         'question_id': data['_id'],
