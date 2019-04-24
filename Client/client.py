@@ -115,9 +115,9 @@ def start_session():
 
     # Show basic statistics
     print('Questions answered:', questions)
-    print('Correctly answered:', reduce(
+    print('Correctly answered:', sum(map(
         lambda obj: obj['response'] == obj['correct'],
-        responses))
+        responses)))
 
 
 def list_concepts():
