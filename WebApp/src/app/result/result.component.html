@@ -1,1 +1,8 @@
-<h5>Performance Report</h5>
+<div class="card white darken-1 center-align">
+    <h5>Performance Report of {{student}} for the Concept: {{concept}}</h5>
+    <ul>
+        <li *ngFor="let x of start_probs">Start Probability: {{x}}</li>
+        <li *ngFor="let y of transition_probs">Transition Probability: {{y}}</li>
+        <li *ngFor="let z of emission_probs">Emission Probability: {{z}}</li>
+    </ul>
+</div>
