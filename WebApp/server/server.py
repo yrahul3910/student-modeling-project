@@ -36,7 +36,8 @@ def user_signup():
     {
         username: string,
         name: string,
-        password: string
+        password: string,
+        userType: string
     }
     Hashes the password with bcrypt using a salt, and adds to the
     database if the username does not already exist. If successful,
@@ -57,10 +58,12 @@ def user_signup():
     username = data['username']
     name = data['name']
     pwd = data['password']
+    user_type = data['userType']
 
     # Check basic errors
     if username is None or name is None or pwd is None or \
-            username.isspace() or name.isspace() or pwd.isspace():
+            username.isspace() or name.isspace() or pwd.isspace() or \
+            user_type.isspace() or user_type is None:
         return Response('{"success":false, error:"Invalid parameters"}',
                         status=400, mimetype='application/json')
 
@@ -86,7 +89,8 @@ def user_signup():
         user_coll.insert_one({
             'username': username,
             'name': name,
-            'password': hashed.decode('utf8')
+            'password': hashed.decode('utf8'),
+            'type': user_type
         })
 
         # Generate a token and respond with a 200 OK.
@@ -111,7 +115,8 @@ def user_login():
     Implements user login. Accepts credentials as
     {
         username: string,
-        password: string
+        password: string,
+        userType: string
     }
     If the authentication details succeed,
     then creates a JWT and returns it to the client with a 200 OK.
@@ -129,10 +134,12 @@ def user_login():
     data = request.get_json()
     username = data['username']
     pwd = data['password']
+    user_type = data['userType']
 
     user_coll = db.get_collection('users')
     matched_user = user_coll.find_one({
-        'username': username
+        'username': username,
+        'type': user_type
     })
     if matched_user is None:
         # Username does not exist. Give a vague error for

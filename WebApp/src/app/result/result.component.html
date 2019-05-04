@@ -1,8 +1,25 @@
-<div class="card white darken-1 center-align">
+<div class="card white darken-1 center-align" style="width: 50%; margin-left: 25%">
     <h5>Performance Report of {{student}} for the Concept: {{concept}}</h5>
-    <ul>
-        <li *ngFor="let x of start_probs">Start Probability: {{x}}</li>
-        <li *ngFor="let y of transition_probs">Transition Probability: {{y}}</li>
-        <li *ngFor="let z of emission_probs">Emission Probability: {{z}}</li>
-    </ul>
+    <table style="width: initial; margin-left: 20%">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Probability</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pair of start_probs.entries()">
+                <td>Start state: {{hidden_states[pair[0]]}}</td>
+                <td>{{pair[1]}}</td>
+            </tr>
+            <tr *ngFor="let pair of [[0, 0], [0, 1], [1, 0], [1, 1]]">
+                <td>Transition: {{hidden_states[pair[0]]}} to {{hidden_states[pair[1]]}}</td>
+                <td>{{transition_probs[pair[0]][pair[1]]}}</td>
+            </tr>
+            <tr *ngFor="let pair of [[0, 0], [0, 1], [1, 0], [1, 1]]">
+                <td>{{emission_states[pair[0]][pair[1]]}}</td>
+                <td>{{emission_probs[pair[0]][pair[1]]}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

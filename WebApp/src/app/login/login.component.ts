@@ -16,10 +16,10 @@ export class LoginComponent {
         };
         this.http.post('/api/user/login', data, options).subscribe(
             suc => {
-                if (data['userType'] === 'Student') {
+                if (data['userType'] === 'student') {
                     this.token = suc['token'];
                     this.router.navigate(['/student'], { queryParams: {'token': this.token}});
-                } else if (data['userType'] === 'Teacher') {
+                } else if (data['userType'] === 'teacher') {
                     this.token = suc['token'];
                     this.router.navigate(['/teacher'], { queryParams: {'token': this.token}});
                 } else {

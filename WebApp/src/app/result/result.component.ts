@@ -13,6 +13,10 @@ export class ResultComponent implements OnInit {
   start_probs = new Array<string>(2);
   transition_probs = new Array<string>(2);
   emission_probs = new Array<string>(2);
+
+  hidden_states = ["unlearned", "learned"];
+  emission_states = [["Concept unlearned, wrong answer", "Guess"], ["Slip", "Knows concept, correct answer"]]
+
   constructor(public http: HttpClient, public route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
         this.concept = params['concept'];
@@ -27,16 +31,10 @@ export class ResultComponent implements OnInit {
     };
     this.http.post('/api/user/performance', postData, options).subscribe(
       suc => {
-        if (suc['success']==='true'){
-          for (let i = 0; i < suc['start_probs']['length']; i++) {
-            this.start_probs[i] = suc['start_probs'][i];
-          }
-          for (let i = 0; i < suc['transition_probs']['length']; i++) {
-            this.transition_probs[i] = suc['transition_probs'][i];
-          }
-          for (let i = 0; i < suc['emission_probs']['length']; i++) {
-            this.emission_probs[i] = suc['emission_probs'][i];
-          }
+        if (suc['success']){
+          this.start_probs = suc['start_probs'];
+          this.transition_probs = suc['transition_probs'];
+          this.emission_probs = suc['emission_probs'];
         }
       },
       err => {
