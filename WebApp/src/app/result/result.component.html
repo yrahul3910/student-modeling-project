@@ -8,18 +8,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let pair of start_probs.entries()">
-                <td>Start state: {{hidden_states[pair[0]]}}</td>
-                <td>{{pair[1]}}</td>
+            <tr>
+                <td>Start state distribution</td>
+		<td>[{{start_probs}}]</td>
             </tr>
-            <tr *ngFor="let pair of [[0, 0], [0, 1], [1, 0], [1, 1]]">
-                <td>Transition: {{hidden_states[pair[0]]}} to {{hidden_states[pair[1]]}}</td>
-                <td>{{transition_probs[pair[0]][pair[1]]}}</td>
+            <tr>
+                <td rowspan=2>Transition matrix</td>
+                <td>[{{transition_probs[0]}}]</td>
             </tr>
-            <tr *ngFor="let pair of [[0, 0], [0, 1], [1, 0], [1, 1]]">
-                <td>{{emission_states[pair[0]][pair[1]]}}</td>
-                <td>{{emission_probs[pair[0]][pair[1]]}}</td>
+	    <tr>
+		<td>[{{transition_probs[1]}}]</td>
+	    </tr>
+            <tr>
+                <td rowspan=2>Emission matrix</td>
+                <td>[{{emission_probs[0]}}]</td>
             </tr>
+	    <tr>
+		<td>[{{emission_probs[1]}}]</td>
+	    </tr>
         </tbody>
     </table>
 </div>

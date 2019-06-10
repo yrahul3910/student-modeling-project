@@ -3,7 +3,7 @@ echo '-----------------------------------'
 echo 'Installing packages'
 echo '-----------------------------------'
 npm i
-sudo npm link @angular/cli
+sudo npm i -g @angular/cli@6.2.0
 
 echo '-----------------------------------'
 echo 'Linting Python code'

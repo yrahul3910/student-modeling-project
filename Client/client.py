@@ -18,7 +18,8 @@ def create_account():
     r = requests.post('http://localhost:5000/api/user/signup', json={
         'name': name,
         'username': username,
-        'password': pwd
+        'password': pwd,
+        'userType': 'student'
     })
 
     # Check 409 Conflict
@@ -38,7 +39,8 @@ def login():
 
     r = requests.post('http://localhost:5000/api/user/login', json={
         'username': username,
-        'password': pwd
+        'password': pwd,
+        'userType': 'student'
     })
 
     # Check 401 Unauthorized

@@ -14,9 +14,6 @@ export class ResultComponent implements OnInit {
   transition_probs = new Array<string>(2);
   emission_probs = new Array<string>(2);
 
-  hidden_states = ["unlearned", "learned"];
-  emission_states = [["Concept unlearned, wrong answer", "Guess"], ["Slip", "Knows concept, correct answer"]]
-
   constructor(public http: HttpClient, public route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
         this.concept = params['concept'];

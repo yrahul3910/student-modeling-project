@@ -12,12 +12,6 @@ import numpy as np
 from BKT import BKT
 from AdaptiveTester import AdaptiveTester
 
-from catsim.cat import generate_item_bank
-from catsim.initialization import RandomInitializer
-from catsim.selection import UrrySelector, IntervalInfoSelector
-from catsim.estimation import HillClimbingEstimator
-from catsim.simulation import Simulator
-
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
             root_path=os.path.realpath(os.path.pardir) + '/WebApp',

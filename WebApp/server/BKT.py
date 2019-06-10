@@ -20,7 +20,7 @@ class BKT:
         if len(self.observed.shape) == 1:
             self.observed = self.observed.reshape(-1, 1)
         # TODO: Check other parameters to this constructor
-        self.model = MultinomialHMM(n_components=2)
+        self.model = MultinomialHMM(n_components=2, n_iter=100)
 
     def fit(self) -> None:
         """
@@ -38,8 +38,8 @@ class BKT:
             (A, pi, B): The start probabilities, the transition
                         probabilities, and the emission probabilities.
         """
-        return self.model.startprob_, self.model.transmat_, \
-            self.model.emissionprob_
+        return np.round_(self.model.startprob_, 2), np.round_(self.model.transmat_, 2), \
+            np.round_(self.model.emissionprob_, 2)
 
     def predict(self, sequence) -> np.array:
         """

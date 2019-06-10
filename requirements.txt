@@ -3,4 +3,4 @@ Flask==1.0.2
 bcrypt==3.1.4
 PyJWT==1.6.4
 hmmlearn==0.2.0
-IOHMM==0.0.2
+cutie==0.2.2
